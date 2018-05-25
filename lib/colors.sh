@@ -26,5 +26,5 @@ bmagenta () { has_term && tput setab 5 2>/dev/null ; }
 bcyan ()    { has_term && tput setab 6 2>/dev/null ; }
 bwhite ()   { has_term && tput setab 7 2>/dev/null ; }
 
-uncolor ()   { white; unbold; bblack; }
+uncolor ()   { has_term && tput sgr0 2>/dev/null ; }
 
