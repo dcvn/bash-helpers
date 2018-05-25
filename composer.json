@@ -1,0 +1,12 @@
+{
+    "name": "dcvn/bash-helpers",
+    "description": "Bash helper functions for use in scripts",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeroen van der Sande",
+            "email": "dcvn@declavinoot.nl"
+        }
+    ],
+    "require": {}
+}

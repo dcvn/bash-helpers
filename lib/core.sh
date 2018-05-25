@@ -20,6 +20,14 @@ function require_commands () {
   fi
 }
 
+function require_lib () {
+    local SCRIPTNAME="${BASH_SOURCE[0]}"
+    LIBDIR=$(cd -P "$(dirname "${SCRIPTNAME}")" && pwd)
+    if [ -f "$LIBDIR/$1.sh" ]; then
+        source "$LIBDIR/$1.sh"
+    fi
+}
+
 
 # Prints "1680x1050"
 #require_commands xrandr awk grep
