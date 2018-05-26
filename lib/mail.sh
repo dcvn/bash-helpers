@@ -1,9 +1,10 @@
 # mail functions 
 
-declare MAILSERVER_FQDN="localhost"
-declare MAIL_DEFAULT_TO="root@localhost"
-declare MAILBODY_PLAIN
-declare MAILBODY_HTML
+MAILSERVER_FQDN="localhost"
+MAIL_DEFAULT_TO="root@localhost"
+MAIL_DEFAULT_FROM="root@localhost"
+MAILBODY_PLAIN=""
+MAILBODY_HTML=""
 
 
 function mail_image_att ()
@@ -33,8 +34,10 @@ function mail_mime_image_inline ()
 	local SYSHOST=$(hostname)
 	local SYSUSER=$(id -un)
 	local SYSGECOS=$(getent passwd $(id -un) |cut -d: -f5 |cut -d, -f1)
+	local MAIL_FROM=${MAIL_DEFAULT_FROM:-$SYSUSER@$SYSHOST}
+	local MAIL_FROM_NAME=${MAIL_DEFAULT_FROM_NAME:-$SYSGECOS}
 
-	echo "From: (${MAIL_FROM_NAME:-$SYSGECOS}) <${MAIL_FROM:-$SYSUSER@$SYSHOST}>
+	echo "From: (${MAIL_FROM_NAME:-$SYSGECOS}) <${MAIL_FROM}>
 To: (${MAIL_TO_NAME:-$MAIL_TO}) <${MAIL_TO}>
 Subject: ${SUBJECT}
 Date: $(date -R)
@@ -75,7 +78,7 @@ function mail_send_tcp ()
 	PORT=25
 	DEFAULT_FROM="${USER}@$(hostname)"
 	RCPT_TO=${1:-$MAIL_DEFAULT_TO}
-	MAIL_FROM=${2:-$DEFAULT_FROM}
+	MAIL_FROM=${2:-$MAIL_DEFAULT_FROM}
 	SMTP_DATA="" # read stdin
 	
 	exec 3<>/dev/tcp/${SERVER}/${PORT} 
@@ -120,8 +123,10 @@ function mail_mime_image_attach ()
 	local SYSHOST=$(hostname)
 	local SYSUSER=$(id -un)
 	local SYSGECOS=$(getent passwd $(id -un) |cut -d: -f5 |cut -d, -f1)
+	local MAIL_FROM=${MAIL_DEFAULT_FROM:-$SYSUSER@$SYSHOST}
+	local MAIL_FROM_NAME=${MAIL_DEFAULT_FROM_NAME:-$SYSGECOS}
 
-	echo "From: (${MAIL_FROM_NAME:-$SYSGECOS}) <${MAIL_FROM:-$SYSUSER@$SYSHOST}>
+	echo "From: (${MAIL_FROM_NAME}) <${MAIL_FROM}>
 To: (${MAIL_TO_NAME:-$MAIL_TO}) <${MAIL_TO}>
 Subject: ${SUBJECT}
 Date: $(date -R)

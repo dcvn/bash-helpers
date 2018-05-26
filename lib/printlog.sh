@@ -1,8 +1,8 @@
 # Shared print/log functions 
-declare VERBOSE=0
-declare QUIET=0
+declare -i VERBOSE=0
+declare -i QUIET=0
 
-declare PRINTLOG_DATEFORMAT='%Y-%m-%d %H:%M:%S'
+PRINTLOG_DATEFORMAT='%Y-%m-%d %H:%M:%S'
 
 if [ "$APPNAME" = "" ]; then
   APPNAME="shellscript"
